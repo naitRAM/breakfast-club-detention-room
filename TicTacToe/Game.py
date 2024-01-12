@@ -1,4 +1,4 @@
-from TTTGrid import TTTGrid
+from Grid import Grid
 from random import seed, random
 
 play = True
@@ -8,7 +8,7 @@ while play:
     while player_mark != "X" and player_mark != "O":
         player_mark = input("Enter a valid mark (X or O): ")
     print()
-    grid = TTTGrid()
+    grid = Grid()
     if player_mark == "X":
         computer = "O"
     else:
@@ -25,7 +25,7 @@ while play:
     print()
     grid.print_grid()
     print()
-    while not grid.is_win(player_mark) and not grid.is_win(computer) and not grid.count_empty() == 0:
+    while not grid.is_win(player_mark) and not grid.is_win(computer) and not grid.count_empties() == 0:
         if turn == "player":
             cell = input("Enter a valid cell to play (e.g. a1, b3, c2): ")
             while cell not in grid.cell_names or not grid.cells[grid.cell_names.index(cell)].is_empty():

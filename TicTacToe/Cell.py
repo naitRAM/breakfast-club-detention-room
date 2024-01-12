@@ -1,4 +1,4 @@
-class TTTCell:
+class Cell:
     """ A class that creates an empty Tic Tac Toe cell object. """
     def __init__(self):
         self.value = None

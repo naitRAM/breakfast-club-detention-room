@@ -1,21 +1,21 @@
-from TTTCell import TTTCell
+from Cell import Cell
 from random import seed
 from random import random
 from random import choice
 
-class TTTGrid:
-    """ A class that creates a new TicTacToe grid object """
+class Grid:
+    """ creates a new TicTacToe grid object """
 
     def __init__(self):
-        self.a1 = TTTCell()
-        self.a2 = TTTCell()
-        self.a3 = TTTCell()
-        self.b1 = TTTCell()
-        self.b2 = TTTCell()
-        self.b3 = TTTCell()
-        self.c1 = TTTCell()
-        self.c2 = TTTCell()
-        self.c3 = TTTCell()
+        self.a1 = Cell()
+        self.a2 = Cell()
+        self.a3 = Cell()
+        self.b1 = Cell()
+        self.b2 = Cell()
+        self.b3 = Cell()
+        self.c1 = Cell()
+        self.c2 = Cell()
+        self.c3 = Cell()
         self.cells = [self.a1, self.a2, self.a3, self.b1, self.b2, self.b3, self.c1, self.c2, self.c3]
         self.cell_names = ["a1", "a2", "a3", "b1", "b2", "b3", "c1", "c2", "c3"]
         self.corners = [self.a1, self.a3, self.c1, self.c3]
@@ -56,24 +56,22 @@ class TTTGrid:
                 return True
         return False
     
-    def play_cell(self, cell, mark):
-        cell.set_value(mark)
 
-    def count_empty(self):
+    def count_empties(self):
         count = 0
         for cell in self.cells:
             if cell.is_empty():
                 count += 1
         return count
 
-    def corner_played(self):
+    def is_corner_played(self):
         played = False
         for cell in self.corners:
             if not cell.is_empty():
                 played = True
         return played
 
-    def shared_empties(self, criterion1, criterion2):
+    def get_shared_empties(self, criterion1, criterion2):
         empties = []
         criterion1_list = []
         criterion2_list = []
@@ -90,16 +88,18 @@ class TTTGrid:
                     empties.append(cell)
         return empties
         
-   
+    def play_cell(self, cell, mark):
+        cell.set_value(mark)
+
     def play(self, mark):
         critical = []
         defendable = []
         clear = []
         playable = []
         winnable = []
-        misc = []
+        mixed = []
         for categ in self.categs:
-            enemy_count = 0
+            opp_count = 0
             self_count = 0
             empty_count = 0
             for cell in categ:
@@ -107,23 +107,23 @@ class TTTGrid:
                     if cell.get_value() == mark:
                         self_count += 1
                     else:
-                        enemy_count += 1
+                        opp_count += 1
                 else:
                     empty_count += 1
-            if enemy_count == 2 and self_count == 0:
+            if opp_count == 2 and self_count == 0:
                 critical.append(categ)
-            elif enemy_count == 1 and self_count == 0:
+            elif opp_count == 1 and self_count == 0:
                 defendable.append(categ)
-            elif enemy_count == 0 and self_count == 0:
+            elif opp_count == 0 and self_count == 0:
                 clear.append(categ)
-            elif enemy_count == 0 and self_count == 1:
+            elif opp_count == 0 and self_count == 1:
                 playable.append(categ)
-            elif enemy_count == 0 and self_count == 2:
+            elif opp_count == 0 and self_count == 2:
                 winnable.append(categ)
             elif empty_count == 1:
-                misc.append(categ)
+                mixed.append(categ)
 
-        if self.count_empty() == 9:
+        if self.count_empties() == 9:
             seed()
             ran = random();
             if 0 <= ran < 0.45:
@@ -137,7 +137,7 @@ class TTTGrid:
                 ran_edge = choice(self.edges)
                 ran_edge.set_value(mark)
 
-        elif self.count_empty() == 8:
+        elif self.count_empties() == 8:
             if not self.b2.is_empty():
                 seed()
                 ran_corner = choice(self.corners)
@@ -153,8 +153,8 @@ class TTTGrid:
                 for cell in critical[0]:
                     if cell.is_empty():
                         cell.set_value(mark)
-            elif defendable and playable and self.shared_empties(defendable, playable):
-                shared = self.shared_empties(defendable, playable)
+            elif defendable and playable and self.get_shared_empties(defendable, playable):
+                shared = self.get_shared_empties(defendable, playable)
                 seed()
                 ran_cell = choice(shared)
                 ran_cell.set_value(mark)
@@ -184,8 +184,8 @@ class TTTGrid:
                 seed()
                 ran_cell = choice(ran_choice)
                 ran_cell.set_value(mark)
-            elif misc:
-                for cell in misc[0]:
+            elif mixed:
+                for cell in mixed[0]:
                     if cell.is_empty():
                         cell.set_value(mark)
                 
