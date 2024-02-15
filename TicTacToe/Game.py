@@ -1,10 +1,10 @@
 from Grid import Grid
 from random import seed, random
-
 play = True
 player_score = 0
 computer_score = 0
 ties = 0
+
 while play:
     print("Welcome to Tic Tac Toe, you will be playing against the computer")
     player_mark = input("Enter your preferred mark (X or O): ")
@@ -79,7 +79,3 @@ while play:
             print("Don't think you'll keep winning!")
         else:
             print("Time to break you!")
-        
-        
-
-

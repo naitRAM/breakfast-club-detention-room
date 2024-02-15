@@ -11,4 +11,3 @@ class Cell:
 
     def set_value(self, mark):
         self.value = mark
-

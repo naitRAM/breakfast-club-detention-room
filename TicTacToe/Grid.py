@@ -92,6 +92,7 @@ class Grid:
         cell.set_value(mark)
 
     def play(self, mark):
+        seed();
         critical = []
         defendable = []
         clear = []
@@ -122,24 +123,18 @@ class Grid:
                 winnable.append(categ)
             elif empty_count == 1:
                 mixed.append(categ)
-
         if self.count_empties() == 9:
-            seed()
             ran = random();
             if 0 <= ran < 0.45:
                 self.b2.set_value(mark)
             elif 0.45 <= ran < 0.80:
-                seed()
                 ran_corner = choice(self.corners)
                 ran_corner.set_value(mark)
             elif 0.80 <= ran < 1:
-                seed()
                 ran_edge = choice(self.edges)
                 ran_edge.set_value(mark)
-
         elif self.count_empties() == 8:
             if not self.b2.is_empty():
-                seed()
                 ran_corner = choice(self.corners)
                 ran_corner.set_value(mark)
             else:
@@ -155,44 +150,29 @@ class Grid:
                         cell.set_value(mark)
             elif defendable and playable and self.get_shared_empties(defendable, playable):
                 shared = self.get_shared_empties(defendable, playable)
-                seed()
                 ran_cell = choice(shared)
                 ran_cell.set_value(mark)
             elif playable:
-                seed()
                 ran_choice = choice(playable)
                 playable_cells = []
                 for cell in ran_choice:
                     if cell.is_empty():
                         playable_cells.append(cell)
-                seed()
                 ran_cell = choice(playable_cells)
                 ran_cell.set_value(mark)
             elif defendable:
-                seed()
                 ran_choice = choice(defendable)
                 defendable_cells = []
                 for cell in ran_choice:
                     if cell.is_empty():
                         defendable_cells.append(cell)
-                seed()
                 ran_cell = choice(defendable_cells)
                 ran_cell.set_value(mark)
             elif clear:
-                seed()
                 ran_choice = choice(clear)
-                seed()
                 ran_cell = choice(ran_choice)
                 ran_cell.set_value(mark)
             elif mixed:
                 for cell in mixed[0]:
                     if cell.is_empty():
                         cell.set_value(mark)
-                
-                        
-
-
-
-
-
-
