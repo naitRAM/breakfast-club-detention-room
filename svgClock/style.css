@@ -1,0 +1,26 @@
+#hourHand {
+    transform-origin: center;
+    animation: hourElapse linear 36s infinite;
+}
+#minuteHand {
+    transform-origin: center;
+    animation: minuteElapse linear 3s infinite;
+}
+
+@keyframes minuteElapse {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes hourElapse {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
